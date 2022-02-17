@@ -31,8 +31,8 @@ class _MainPagesState extends State<MainPages> {
           });
         },
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home', backgroundColor: Colors.blueAccent,),
-          BottomNavigationBarItem(icon: Icon(Icons.settings),label: 'Settings',backgroundColor: Colors.blueAccent,),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home', backgroundColor: Colors.tealAccent,),
+          BottomNavigationBarItem(icon: Icon(Icons.settings),label: 'Settings',backgroundColor: Colors.tealAccent,),
         ],
       ),
     );

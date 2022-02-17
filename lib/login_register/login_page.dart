@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ocd_flutter_app/login_register/register_page.dart';
 import '../main_pages.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -88,9 +90,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(
-              height: 130,
+              height: 15,
             ),
-            const Text('New User? Create Account')
+            TextButton(onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const RegisterPage()));
+            }, child: const Text('New User? Create Account'))
           ],
         ),
       ),
