@@ -9,7 +9,9 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

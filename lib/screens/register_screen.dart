@@ -48,7 +48,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       autofocus: false,
       controller: emailEditingController,
       keyboardType: TextInputType.emailAddress,
-      //validator: () {},
+      validator: (value) {
+        RegExp regex = RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]");
+        if (value!.isEmpty) {
+          return ("Please enter a valid email");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Please Enter a valid email");
+        }
+        return null;
+      },
       onSaved: (value) {
         emailEditingController.text = value!;
       },
@@ -70,7 +79,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       obscureText: _obscureText,
       enableSuggestions: false,
       autocorrect: false,
-      //validator: () {},
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{6,}$');
+        if (value!.isEmpty) {
+          return ("Password must contain at least 6 characters");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Password must contain at least 6 characters");
+        }
+        return null;
+      },
       onSaved: (value) {
         passwordEditingController.text = value!;
       },
@@ -100,7 +118,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       obscureText: _obscureText,
       enableSuggestions: false,
       autocorrect: false,
-      //validator: () {},
+      validator: (value) {
+        if (value != passwordEditingController.text) {
+          return ("Passwords have to match");
+        }
+        return null;
+      },
       onSaved: (value) {
         confirmPasswordEditingController.text = value!;
       },
