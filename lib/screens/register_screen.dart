@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ocd_flutter_app/main_pages.dart';
+import 'package:ocd_flutter_app/models/user_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -8,6 +13,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+
+  final _auth = FirebaseAuth.instance;
+
   // form key
   final _formKey = GlobalKey<FormState>();
 
@@ -28,7 +36,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final usernameField = TextFormField(
       autofocus: false,
       controller: usernameEditingController,
-      //validator: () {},
+      validator: (value) {
+        RegExp regExp = RegExp(r'^.{3,}$');
+        if (value!.isEmpty) {
+          return ("Username cannot be empty");
+        }
+        if (!regExp.hasMatch(value)) {
+          return ("Enter valid username");
+        }
+        return null;
+      },
       onSaved: (value) {
         usernameEditingController.text = value!;
       },
@@ -154,7 +171,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {},
+        onPressed: () {
+          signUp(emailEditingController.text.toString().trim(),
+              passwordEditingController.text.toString().trim(),);
+        },
         child: const Text(
           'Sign Up',
           textAlign: TextAlign.center,
@@ -198,6 +218,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
 
+  void signUp(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      await _auth.createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {
+            postDetailsToFirestore(),
+      }).catchError((e) {
+        Fluttertoast.showToast(msg: e!.toString());
+      });
+    }
+  }
+
+  postDetailsToFirestore() async {
+    // calling firestore
+    // calling user model
+    // sending values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+
+    await firebaseFirestore
+      .collection("users")
+      .doc(user.uid)
+      .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account has been created");
+    
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => const MainPages()),
+            (Route<dynamic> route) => false);
   }
 }
