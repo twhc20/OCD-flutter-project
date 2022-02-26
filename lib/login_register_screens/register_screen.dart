@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ocd_flutter_app/main_pages.dart';
+import 'package:ocd_flutter_app/main_screens.dart';
 import 'package:ocd_flutter_app/models/user_model.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // editing controller
-  final usernameEditingController = TextEditingController();
+  final nameEditingController = TextEditingController();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
   final confirmPasswordEditingController = TextEditingController();
@@ -33,27 +33,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
 
     // username field
-    final usernameField = TextFormField(
+    final nameField = TextFormField(
       autofocus: false,
-      controller: usernameEditingController,
+      controller: nameEditingController,
       validator: (value) {
         RegExp regExp = RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
-          return ("Username cannot be empty");
+          return ("Name cannot be empty");
         }
         if (!regExp.hasMatch(value)) {
-          return ("Enter valid username");
+          return ("Enter valid Name");
         }
         return null;
       },
       onSaved: (value) {
-        usernameEditingController.text = value!;
+        nameEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.account_circle_rounded),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        labelText: 'Username',
+        labelText: 'Name',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -201,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  usernameField,
+                  nameField,
                   const SizedBox(height: 15),
                   emailField,
                   const SizedBox(height: 15),

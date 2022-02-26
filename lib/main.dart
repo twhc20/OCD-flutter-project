@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ocd_flutter_app/main_pages.dart';
-import 'package:ocd_flutter_app/screens/login_screen.dart';
-import 'login_register/login_page.dart';
-import 'pages/home_page.dart';
+import 'login_register_screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
