@@ -15,23 +15,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
+
+  bool _isLoading = false;
+  bool _isInit = true;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    FirebaseFirestore.instance
-      .collection("users")
-      .doc(user!.uid)
-      .get()
-      .then((value){
+    if (_isInit) {
+      _isLoading = true;
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .get()
+          .then((value) {
         loggedInUser = UserModel.fromMap(value.data());
         setState(() {});
-    });
+      });
+      _isInit = false;
+      super.initState();
+      _isLoading = false;
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _isLoading ? const Center(child: CircularProgressIndicator()) :
+    Scaffold(
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -46,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                      "${loggedInUser.name}"
+                      '${loggedInUser.name}'
                   ),
                 ],
               ),
