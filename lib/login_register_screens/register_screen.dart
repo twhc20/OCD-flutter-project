@@ -242,7 +242,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     UserModel userModel = UserModel();
 
     userModel.email = user!.email;
+    userModel.name = nameEditingController.text;
     userModel.uid = user.uid;
+
 
     await firebaseFirestore
       .collection("users")
